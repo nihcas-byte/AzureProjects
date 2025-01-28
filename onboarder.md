@@ -1,7 +1,6 @@
 ### **Onboard Automator (Manage Entra ID identities and governance)**
 
 Here’s a functional requirement derived from your steps:  
-
 ## **Functional Requirement: Automated Employee Onboarding in Azure AD**  
 
 
@@ -38,17 +37,21 @@ Here’s a list of key Azure Logic Apps terms:
 19. **Monitoring & Alerts** – Tools like Azure Monitor and Application Insights to track Logic App performance and failures.
 
 ## Workflow flowchart:
-![image.png](attachment:d87681c0-33c3-47f3-93df-19c481b47a7f:image.png)
+
+![image](https://github.com/user-attachments/assets/fc2e85e4-830c-49b6-8a84-fb5ae91fd070)
+
 
 ## Creating a Logic App on Azure Portal:
 
-Login to Azure Portal, navigate to Logic Apps, and start with the creation of Logic App.
+Login to Azure Portal, navigate to Logic Apps and start with the creation of Logic App.
 
+![image](https://github.com/user-attachments/assets/9648b6ea-1687-45ae-a6b6-9d1bbad077aa)
 
 
 Logic App is created.
 
-![image.png](attachment:f0dde60c-5adb-4281-807a-8031a445d625:image.png)
+![image](https://github.com/user-attachments/assets/c14391e2-a061-4aeb-b7d7-a5c97fbd2c39)
+
 
 Workflow is created under the ***Logic app designer.***
 
