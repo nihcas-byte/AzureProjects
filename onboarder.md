@@ -38,14 +38,13 @@ Here’s a list of key Azure Logic Apps terms:
 19. **Monitoring & Alerts** – Tools like Azure Monitor and Application Insights to track Logic App performance and failures.
 
 ## Workflow flowchart:
-
 ![image.png](attachment:d87681c0-33c3-47f3-93df-19c481b47a7f:image.png)
 
 ## Creating a Logic App on Azure Portal:
 
-Login to Azure Portal and navigate to Logic Apps and start with creation of Logic App.
+Login to Azure Portal, navigate to Logic Apps, and start with the creation of Logic App.
 
-![image.png](attachment:e07c0c9e-704f-4331-b17a-9a963f407c4b:image.png)
+
 
 Logic App is created.
 
