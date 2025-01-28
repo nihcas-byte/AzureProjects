@@ -1,0 +1,704 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Onboard Users Automatically</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="184f1f0d-d6cf-8083-9db9-c0fab844c66b" class="page sans"><header><h1 class="page-title">Onboard Users Automatically</h1><p class="page-description"></p></header><div class="page-body"><h2 id="184f1f0d-d6cf-80b5-bc5f-e00d51eb08ae" class="">Azure Logic App</h2><p id="189f1f0d-d6cf-80bb-b5c8-cd1f5f40371e" class="">Here’s a list of key Azure Logic Apps terms: </p><ol type="1" id="189f1f0d-d6cf-8022-951f-ecee902e9914" class="numbered-list" start="1"><li><strong>Logic App</strong> – A cloud-based workflow automation service for integrating apps, data, and services.</li></ol><ol type="1" id="189f1f0d-d6cf-80a3-ad31-d8aa1cf43a38" class="numbered-list" start="2"><li><strong>Workflow</strong> – A sequence of steps that define automated processes in a Logic App.</li></ol><ol type="1" id="189f1f0d-d6cf-80c4-a4ab-f5eaf5d329f4" class="numbered-list" start="3"><li><strong>Trigger</strong> – An event that starts a Logic App workflow (e.g., receiving an email or a timer schedule).</li></ol><ol type="1" id="189f1f0d-d6cf-800f-bc9b-d322128b5b23" class="numbered-list" start="4"><li><strong>Action</strong> – A task or operation performed within a workflow, such as sending an email or updating a database.</li></ol><ol type="1" id="189f1f0d-d6cf-80f0-82bb-fdfea1d02495" class="numbered-list" start="5"><li><strong>Connector</strong> – A prebuilt integration component that allows Logic Apps to communicate with services like Office 365, SQL, and Azure Blob Storage.<ol type="a" id="189f1f0d-d6cf-8080-b9df-cffdc595bbeb" class="numbered-list" start="1"><li><strong>Managed Connector</strong> – A built-in or Microsoft-maintained connector requiring authentication to interact with external services.</li></ol><ol type="a" id="189f1f0d-d6cf-80ad-a643-fe1ef1ab0b92" class="numbered-list" start="2"><li><strong>Custom Connector</strong> – A user-defined connector to integrate with third-party APIs not covered by built-in connectors.</li></ol></li></ol><ol type="1" id="189f1f0d-d6cf-808a-94ed-dd71630726cc" class="numbered-list" start="6"><li><strong>Built-in Actions</strong> – Native actions available within Logic Apps without requiring external authentication.</li></ol><ol type="1" id="189f1f0d-d6cf-80f9-b38c-eb747dfe92ad" class="numbered-list" start="7"><li>Plans:<ol type="a" id="189f1f0d-d6cf-8017-af7d-e355a2149b13" class="numbered-list" start="1"><li><strong>Standard Plan</strong> – A pricing model for hosting Logic Apps within Azure App Service with enhanced networking options.</li></ol><ol type="a" id="189f1f0d-d6cf-803a-aa5e-fcf6283fa769" class="numbered-list" start="2"><li><strong>Consumption Plan</strong> – A pay-per-use pricing model where Logic Apps execute only when triggered.</li></ol><ol type="a" id="189f1f0d-d6cf-80e6-a3eb-c1fe8dfe8754" class="numbered-list" start="3"><li><strong>Integration Service Environment (ISE)</strong> – A dedicated environment for running Logic Apps with better security, scalability, and VNET integration.</li></ol><ol type="a" id="189f1f0d-d6cf-8025-9a0c-c4e1846fe286" class="numbered-list" start="4"><li><strong>Enterprise Integration Pack (EIP)</strong> – A set of features that help integrate Logic Apps with legacy B2B protocols like AS2, X12, and EDIFACT.</li></ol></li></ol><ol type="1" id="189f1f0d-d6cf-80be-aae7-c20b5c53bf35" class="numbered-list" start="8"><li><strong>Stateful Workflow</strong> – A workflow that maintains execution history and supports long-running operations.</li></ol><ol type="1" id="189f1f0d-d6cf-8095-ae5b-dfaa5c942cfc" class="numbered-list" start="9"><li><strong>Stateless Workflow</strong> – A lightweight workflow that executes quickly without persisting execution history.</li></ol><ol type="1" id="189f1f0d-d6cf-80e1-aa7f-efcd51b70942" class="numbered-list" start="10"><li><strong>Run History</strong> – A log of past executions, showing the status, inputs, and outputs of each Logic App run.</li></ol><ol type="1" id="189f1f0d-d6cf-8024-a92c-c2c33c26979e" class="numbered-list" start="11"><li><strong>Retry Policy</strong> – A mechanism to automatically retry failed actions based on predefined settings.</li></ol><ol type="1" id="189f1f0d-d6cf-802a-bf20-cd04ec84b97d" class="numbered-list" start="12"><li><strong>Parallel Execution</strong> – A feature that allows multiple actions to run simultaneously within a Logic App.</li></ol><ol type="1" id="189f1f0d-d6cf-80d3-ad54-d5c741476630" class="numbered-list" start="13"><li>Controls:<ol type="a" id="189f1f0d-d6cf-80af-b18f-d8fa2bf10cb5" class="numbered-list" start="1"><li><strong>Loop</strong> – A control flow construct (<em>For Each</em>, and <em>Until</em>) used to repeat actions within a Logic App.</li></ol><ol type="a" id="189f1f0d-d6cf-8098-bd61-df9af7ebd5d8" class="numbered-list" start="2"><li><strong>Condition</strong> – A logical statement that determines the execution path of a workflow.</li></ol></li></ol><ol type="1" id="189f1f0d-d6cf-80ef-84f2-ce2950cf036d" class="numbered-list" start="14"><li><strong>Expression</strong> – A formula using functions and variables to manipulate data dynamically within Logic Apps.</li></ol><ol type="1" id="189f1f0d-d6cf-80fa-9565-e96246cb8f29" class="numbered-list" start="15"><li><strong>Variables</strong> – Temporary storage for values that can be modified and used within a workflow.</li></ol><ol type="1" id="189f1f0d-d6cf-8043-b790-e12e32d18d76" class="numbered-list" start="16"><li><strong>Secure Inputs/Outputs</strong> – A setting to mask sensitive data within Logic App runs for security.</li></ol><ol type="1" id="189f1f0d-d6cf-8061-88b3-f9b2809497e7" class="numbered-list" start="17"><li><strong>API Connection</strong> – A resource that stores authentication details for connectors like Office 365, Salesforce, and SharePoint.</li></ol><ol type="1" id="189f1f0d-d6cf-8085-9800-f9e5f1ce6bb5" class="numbered-list" start="18"><li><strong>Message Queues</strong> – Services like Azure Service Bus or Storage Queues used to process messages asynchronously.</li></ol><ol type="1" id="189f1f0d-d6cf-80d3-8c75-eeff919f3456" class="numbered-list" start="19"><li><strong>Monitoring &amp; Alerts</strong> – Tools like Azure Monitor and Application Insights to track Logic App performance and failures.</li></ol><p id="189f1f0d-d6cf-8055-a2b6-c0e9f24f7ed8" class="">
+</p><p id="189f1f0d-d6cf-804d-bb88-cdb24f754d59" class="">
+</p><h2 id="189f1f0d-d6cf-8005-83cd-d39b4a6e9228" class="">Workflow flowchart:</h2><figure id="189f1f0d-d6cf-80e3-956f-cd016c7ed232" class="image"><a href="image.png"><img style="width:446px" src="image.png"/></a></figure><p id="189f1f0d-d6cf-805c-96b7-db0c5f34f339" class="">
+</p><h2 id="189f1f0d-d6cf-800e-87bb-ef8d5cc82697" class="">Creating a Logic App on Azure Portal:</h2><p id="189f1f0d-d6cf-8045-a2df-c60cd141ce8a" class="">Login to Azure Portal and navigate to Logic Apps and start with creation of Logic App.</p><figure id="189f1f0d-d6cf-80a3-ba75-e2ff8c7b1a94" class="image"><a href="image%201.png"><img style="width:576px" src="image%201.png"/></a></figure><p id="189f1f0d-d6cf-8031-b9d0-cc43c5771330" class="">
+</p><p id="189f1f0d-d6cf-804c-ace0-dd71aad61c7f" class="">Logic App is created.</p><figure id="189f1f0d-d6cf-8080-b49e-ffa3a6994ded" class="image"><a href="image%202.png"><img style="width:709.984375px" src="image%202.png"/></a></figure><p id="189f1f0d-d6cf-8056-a4e2-d2dceb11ec33" class="">
+</p><p id="189f1f0d-d6cf-801e-a530-f6f89f55c7e8" class="">Workflow is created under the <em><strong>Logic app designer.</strong></em></p><figure id="189f1f0d-d6cf-807d-9a31-ddb813746a3b" class="image"><a href="image%203.png"><img style="width:709.96875px" src="image%203.png"/></a></figure><p id="189f1f0d-d6cf-80a1-9394-fa5fb6d53b53" class="">
+</p><p id="189f1f0d-d6cf-8025-965e-f8eba72f0d3b" class="">
+</p><h2 id="184f1f0d-d6cf-803d-bada-cd95a8719f47" class="">A New Line Item in the SharePoint List:</h2><p id="189f1f0d-d6cf-8086-90f6-c4ccc25c35fb" class="">Adding a new Item in the list with User details (First Name, Last Name, Department, Location etc.). Note: that Department is IT hence, this account will become member of Security group called “<em>IT administrators</em>”</p><blockquote id="189f1f0d-d6cf-80ac-a419-d229cf4e8be2" class=""><strong>Note</strong>: <em>Microsoft Lists</em> and <em>SharePoint Lists</em> are two different services. To work with Azure Logic App connecter we only have support for SharePoint Lists only.</blockquote><figure id="189f1f0d-d6cf-80d1-836d-d3f78f71c2e7" class="image"><a href="image%204.png"><img style="width:611px" src="image%204.png"/></a></figure><p id="189f1f0d-d6cf-80d7-9c02-f3df489c868a" class="">
+</p><p id="189f1f0d-d6cf-80c1-9512-c7c322190cbd" class="">A new item is added to the SharePoint List.</p><figure id="189f1f0d-d6cf-80f9-b143-e2d2f9ec12a1" class="image"><a href="image%205.png"><img style="width:709.890625px" src="image%205.png"/></a></figure><p id="189f1f0d-d6cf-8052-abe7-dfa31e943674" class="">*Yes, I know the contact number is formatted with commas 😃</p><p id="189f1f0d-d6cf-800d-8165-e0457fad92be" class="">
+</p><h2 id="189f1f0d-d6cf-800a-840e-d251229f42e5" class="">Logic App trigger and Run on Azure Portal:</h2><p id="189f1f0d-d6cf-80bc-86bc-ee70cbd723bf" class="">Let’s look at the Logic Apps Run History. Logic App (<strong>onboarder_LA</strong>) run was successful. </p><figure id="189f1f0d-d6cf-8035-a8ed-e555d4126aad" class="image"><a href="image%206.png"><img style="width:709.96875px" src="image%206.png"/></a></figure><p id="189f1f0d-d6cf-805c-a02a-d8ca365ecd35" class="">
+</p><p id="189f1f0d-d6cf-80c0-9657-db6faaf743cf" class="">For a particular run under the Run History on Azure, we can check and validate if individual actions were successful/failed and their processing time. This Run History view and data enables to troubleshoot the Logic App flows easily.</p><figure id="189f1f0d-d6cf-80e7-8824-f8d4f8dd5530" class="image"><a href="image%207.png"><img style="width:274px" src="image%207.png"/></a></figure><p id="189f1f0d-d6cf-80a2-9c81-f588cd21f78a" class="">
+</p><p id="189f1f0d-d6cf-802a-bef2-c99ff6d99877" class="">For any failed action on the any of the connector you get the below error message. The flow stops here and does not proceed further.</p><figure id="189f1f0d-d6cf-809a-868e-cc10afb99f0e" class="image"><a href="image%208.png"><img style="width:363px" src="image%208.png"/></a></figure><p id="189f1f0d-d6cf-80f3-9820-f3b351f7bb37" class="">
+</p><p id="189f1f0d-d6cf-806b-873e-ca106feb844a" class="">We can drill down and check individual steps to see their inputs and outputs. Below here it shows that when an item is created in SharePoint list then these values were captured. These will be used by downstream actions in the Logic App flow.</p><figure id="189f1f0d-d6cf-80a8-b6cb-fb5483130b68" class="image"><a href="image%209.png"><img style="width:601px" src="image%209.png"/></a></figure><p id="189f1f0d-d6cf-80f3-b1af-cce96a6fca4f" class="">
+</p><p id="189f1f0d-d6cf-800f-b5ce-c24f2d85b50d" class="">
+</p><h2 id="189f1f0d-d6cf-80b4-b361-c0b55b249d06" class="">Azure Portal User account creation:</h2><p id="189f1f0d-d6cf-80c7-b6db-ff8ebe919f95" class="">Now, checking on Azure Portal (portal.azure.com) for the user account creation.</p><figure id="189f1f0d-d6cf-8050-a013-d2eeca0a90ca" class="image"><a href="image%2010.png"><img style="width:661px" src="image%2010.png"/></a></figure><p id="189f1f0d-d6cf-802a-81c5-e9ce0eed34b9" class="">
+</p><p id="189f1f0d-d6cf-80da-937f-df8e91c9ebd5" class="">User account has been created. </p><figure id="189f1f0d-d6cf-802f-b1ef-e8bb364f3741" class="image"><a href="image%2011.png"><img style="width:709.96875px" src="image%2011.png"/></a></figure><p id="189f1f0d-d6cf-8040-8ede-e508c44a96d5" class="">
+</p><p id="189f1f0d-d6cf-804f-8788-fba93f61fb00" class="">User Account details, this account is part of one security group called “<em>IT administrators</em>”</p><figure id="189f1f0d-d6cf-80da-a8ed-da41c2350c5a" class="image"><a href="image%2012.png"><img style="width:709.984375px" src="image%2012.png"/></a></figure><p id="189f1f0d-d6cf-805a-a8f8-e911494ec7c6" class="">
+</p><figure id="189f1f0d-d6cf-8026-aeb7-e3ae89156c60" class="image"><a href="image%2013.png"><img style="width:709.984375px" src="image%2013.png"/></a></figure><p id="189f1f0d-d6cf-8022-84e8-dea615902571" class="">
+</p><p id="189f1f0d-d6cf-8040-92b2-c4ad98094301" class="">
+</p><p id="189f1f0d-d6cf-80f1-82d6-c79aea75211a" class="">Portals/Tools:</p><ol type="1" id="189f1f0d-d6cf-80f4-be32-eb735e4bbe43" class="numbered-list" start="1"><li>Azure Portal (<em><span style="border-bottom:0.05em solid">portal.azure.com</span></em>)</li></ol><ol type="1" id="189f1f0d-d6cf-806a-a0c8-d6f7d94b7bfe" class="numbered-list" start="2"><li>SharePoint Online (Lists)</li></ol><ol type="1" id="189f1f0d-d6cf-8036-857b-ea57ef2e7079" class="numbered-list" start="3"><li>Mailbox client and email account</li></ol><p id="189f1f0d-d6cf-80d8-aa30-fef948c7aa44" class="">
+</p><p id="189f1f0d-d6cf-8063-b9b4-d89da6bb4052" class="">Final Thoughts:</p><ol type="1" id="189f1f0d-d6cf-802d-8dde-e0f99916f496" class="numbered-list" start="1"><li></li></ol></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
