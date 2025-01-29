@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .upload-container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            margin: 10px 0;
+            display: none;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease-in-out;
+        }
+        #shareLink {
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Secure File Upload to Azure</h1>
+    <div class="upload-container">
+        <input type="file" id="fileInput">
+        <p>Select a file to upload</p>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+    <div id="shareLink"></div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const progressBar = document.querySelector('.progress-bar');
+            const progress = document.querySelector('.progress');
+            const shareLinkDiv = document.getElementById('shareLink');
+            
+            progressBar.style.display = 'block';
+            
+            // Create FormData object
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Send file to backend
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+
+                const data = await response.json();
+                
+                // Display the shared link
+                shareLinkDiv.style.display = 'block';
+                shareLinkDiv.innerHTML = `
+                    <p>Shared Link (expires in 24 hours):</p>
+                    <a href="${data.shareLink}" target="_blank">${data.shareLink}</a>
+                `;
+
+                progress.style.width = '100%';
+            } catch (error) {
+                alert('Error uploading file: ' + error.message);
+                progress.style.width = '0%';
+            }
+        }
+    </script>
+</body>
+</html>
