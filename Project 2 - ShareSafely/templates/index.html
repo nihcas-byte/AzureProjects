@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure File Upload</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --azure-blue: #0078d4;
+            --azure-light-blue: #50e6ff;
+            --azure-dark: #323130;
+            --azure-grey: #f3f2f1;
+            --azure-border: #edebe9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #faf9f8;
+            color: var(--azure-dark);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--azure-border);
+        }
+
+        .header i {
+            color: var(--azure-blue);
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--azure-dark);
+        }
+
+        .card {
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .upload-container {
+            border: 2px dashed var(--azure-border);
+            border-radius: 4px;
+            padding: 32px;
+            text-align: center;
+            margin: 20px 0;
+            background: var(--azure-grey);
+            transition: all 0.3s ease;
+        }
+
+        .upload-container:hover {
+            border-color: var(--azure-blue);
+            background: #f8f8f8;
+        }
+
+        .file-input-wrapper {
+            margin-bottom: 16px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--azure-blue);
+            color: white;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background: #106ebe;
+        }
+
+        .file-name {
+            margin-top: 8px;
+            color: #605e5c;
+        }
+
+        .upload-button {
+            background: var(--azure-blue);
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-button:hover {
+            background: #106ebe;
+        }
+
+        .upload-button:disabled {
+            background: #c8c6c4;
+            cursor: not-allowed;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--azure-grey);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: var(--azure-blue);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #605e5c;
+        }
+
+        #shareLink {
+            display: none;
+            margin-top: 24px;
+            padding: 16px;
+            background: #f0f6ff;
+            border: 1px solid #cbe1ff;
+            border-radius: 4px;
+        }
+
+        #shareLink p {
+            margin-bottom: 8px;
+            color: var(--azure-dark);
+        }
+
+        #shareLink a {
+            color: var(--azure-blue);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        #shareLink a:hover {
+            text-decoration: underline;
+        }
+
+        .status-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #dff6dd;
+            color: #107c10;
+        }
+
+        .status-message.error {
+            background: #fde7e9;
+            color: #a4262c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h1>Azure Storage File Upload</h1>
+        </div>
+
+        <div class="card">
+            <div class="upload-container">
+                <div class="file-input-wrapper">
+                    <label for="fileInput" class="file-label">
+                        <i class="fas fa-file-upload"></i> Choose File
+                    </label>
+                    <input type="file" id="fileInput" onChange="updateFileName(this)">
+                    <div class="file-name"></div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="progress-text">Uploading...</div>
+                </div>
+
+                <button class="upload-button" onclick="uploadFile()" disabled>
+                    <i class="fas fa-upload"></i> Upload to Azure
+                </button>
+            </div>
+
+            <div class="status-message"></div>
+            <div id="shareLink"></div>
+        </div>
+    </div>
+
+    <script>
+        function updateFileName(input) {
+            const fileName = input.files[0]?.name;
+            const fileNameDiv = document.querySelector('.file-name');
+            const uploadButton = document.querySelector('.upload-button');
+            
+            if (fileName) {
+                fileNameDiv.textContent = fileName;
+                uploadButton.disabled = false;
+            } else {
+                fileNameDiv.textContent = '';
+                uploadButton.disabled = true;
+            }
+        }
+
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (!file) {
+                showStatus('Please select a file first', 'error');
+                return;
+            }
+
+            const progressContainer = document.querySelector('.progress-container');
+            const progress = document.querySelector('.progress');
+            const progressText = document.querySelector('.progress-text');
+            const shareLinkDiv = document.getElementById('shareLink');
+            const uploadButton = document.querySelector('.upload-button');
+            
+            progressContainer.style.display = 'block';
+            uploadButton.disabled = true;
+            
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+
+                const data = await response.json();
+                
+                progress.style.width = '100%';
+                progressText.textContent = 'Upload complete!';
+                
+                shareLinkDiv.style.display = 'block';
+                shareLinkDiv.innerHTML = `
+                    <p><i class="fas fa-link"></i> Shared Link (expires in 24 hours):</p>
+                    <a href="${data.shareLink}" target="_blank">${data.shareLink}</a>
+                `;
+
+                showStatus('File uploaded successfully!', 'success');
+            } catch (error) {
+                showStatus('Error uploading file: ' + error.message, 'error');
+                progress.style.width = '0%';
+                progressText.textContent = 'Upload failed';
+            } finally {
+                uploadButton.disabled = false;
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.querySelector('.status-message');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message ${type}`;
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
