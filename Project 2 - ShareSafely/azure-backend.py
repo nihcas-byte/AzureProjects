@@ -12,7 +12,7 @@ os.makedirs('templates', exist_ok=True)
 os.makedirs('static', exist_ok=True)
 
 # Initialize Azure Key Vault client
-key_vault_url = "https://kv-azureprojects.vault.azure.net/"
+key_vault_url = "https://kv-azureprojects.vault.azure.net"
 credential = DefaultAzureCredential()
 secret_client = SecretClient(vault_url=key_vault_url, credential=credential)
 
@@ -24,15 +24,23 @@ def get_secret(secret_name):
         print(f"Error retrieving secret {secret_name}: {str(e)}")
         return None
 
-# Initialize Azure Storage settings
-azureprojects000 = get_secret("storage-account-name")
-storage_account_key = get_secret("storage-account-key")
-container_name = "uploads"
+# Retrieve storage account key and handle failure
+storage_account_key = get_secret("key-storageaccount")
+if not storage_account_key:
+    raise ValueError("Failed to retrieve storage account key from Key Vault")
 
+# Initialize Azure Storage client
+account_name = "azureprojects000"
 blob_service_client = BlobServiceClient(
-    account_url=f"https://{azureprojects000}.blob.core.windows.net",
+    account_url=f"https://{account_name}.blob.core.windows.net",
     credential=storage_account_key
 )
+
+# Ensure container exists
+container_name = "uploads"
+container_client = blob_service_client.get_container_client(container_name)
+if not container_client.exists():
+    container_client.create_container()
 
 # Route for the main page
 @app.route('/')
@@ -52,16 +60,13 @@ def upload_file():
         # Create a unique blob name
         blob_name = f"{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{file.filename}"
         
-        # Get container client
-        container_client = blob_service_client.get_container_client(container_name)
-        
         # Upload the file
         blob_client = container_client.get_blob_client(blob_name)
         blob_client.upload_blob(file.read())
 
         # Generate SAS token for the blob (24 hour access)
         sas_token = generate_blob_sas(
-            account_name=azureprojects000,
+            account_name=account_name,
             container_name=container_name,
             blob_name=blob_name,
             account_key=storage_account_key,
@@ -70,7 +75,7 @@ def upload_file():
         )
 
         # Generate the full URL with SAS token
-        blob_url = f"https://{azureprojects000}.blob.core.windows.net/{container_name}/{blob_name}?{sas_token}"
+        blob_url = f"https://{account_name}.blob.core.windows.net/{container_name}/{blob_name}?{sas_token}"
 
         return jsonify({
             'message': 'File uploaded successfully',
