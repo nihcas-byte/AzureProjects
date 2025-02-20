@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from azure.storage.blob import BlobServiceClient, generate_blob_sas, BlobSasPermissions
 from azure.keyvault.secrets import SecretClient
-from azure.identity import ClientSecretCredential
+from azure.identity import ClientSecretCredential, DefaultAzureCredential
 from datetime import datetime, timedelta
 import os
 
@@ -11,18 +11,10 @@ app = Flask(__name__)
 os.makedirs('templates', exist_ok=True)
 os.makedirs('static', exist_ok=True)
 
-# ===== App Identity Configuration =====
-TENANT_ID = "dd2af4ea-2053-43da-ab8c-b29fc6488fa5"          # From App Registration
-CLIENT_ID = "26ed2309-7ec4-4a32-b976-53325ca60e87"     # From App Registration
-CLIENT_SECRET = "g2N8Q~1TRDhkOH3qw2Lp5ri4w9dIE5a5WR7LKdgA"  # From App Secrets
 
 # Initialize Azure Key Vault client
 key_vault_url = "https://kv-azureprojects.vault.azure.net"
-credential = ClientSecretCredential(
-    tenant_id=TENANT_ID,
-    client_id=CLIENT_ID,
-    client_secret=CLIENT_SECRET
-)
+credential = DefaultAzureCredential()
 secret_client = SecretClient(vault_url=key_vault_url, credential=credential)
 
 # Get secrets from Key Vault
